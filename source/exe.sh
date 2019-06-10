@@ -6,8 +6,8 @@ javac Main.java -d ../classes
 cd ../classes
 
 #variables
-tN=3;#tumor id, 1=nodular, 2=intermediate, 3=diffuse, 4=fit to all metrics (heterogeneous), 5=fit to all metrics (homogeneous)
-tx=1;#0=grow only, 1=anti-proliferative Tx, 2=anti-migratory Tx, 3=AP+AM Tx
+tN=1;#tumor id, 1=nodular, 2=intermediate, 3=diffuse, 4=fit to all metrics (heterogeneous), 5=fit to all metrics (homogeneous)
+tx=0;#0=grow only, 1=anti-proliferative Tx, 2=anti-migratory Tx, 3=AP+AM Tx
 
 #toggle collection of movies, tracks, and single cell phenotypes
 mov=1;#movie: 0=off, 1=on
