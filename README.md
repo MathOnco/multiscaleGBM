@@ -62,7 +62,7 @@ Fill out the following run configurations.
   Script: find and select the local exe.sh file
   Interpreter path: you may need edit this to find your Java interpreter, we used /usr/bin/env
   Interpreter options: bash
-  Working directory: browse to and select local-directory/multiscaleGBM-master/
+  Working directory: browse to and select local-directory/multiscaleGBM-master/source
 Click OK.
 ```
 
