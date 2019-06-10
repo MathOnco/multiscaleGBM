@@ -105,8 +105,7 @@ This file contains most of the functions for updating the simulation.
 * **cellLoop()**: This function loops through just the activated cells, keeping track of midX and midY, which helps determine the center position of the tumor to get the radius.
   1. If the cell is not already set to die, check to see if cell is done with cell cycle. If so, the cell will divide. Otherwise, the cell will update migration.
   2. Each cell updates the field by consuming and/or secreting PDGF.
-  3. Check to see if cell is out of bounds.
-  4. Find the (x,y) center of mass for the tumor by dividing the sum of the positions by the number of cells.
+  3. Find the (x,y) center of mass for the tumor by dividing the sum of the positions by the number of cells.
 * **resetDensity()**: This resets the mesh and metrics and loops through the cells to calculate the density with respect to the mesh. Cells can be added to the dead list, the activated list, and set to be quiescent here. This function also calculates the maximum Ki67 activity mesh point.
 * **division()**: This function calls findNewPosition() to create a new cell at an angle a diameter away from the parental cell. It also assigns new trait values and resets other variables using the divNewParams() function found in the Cell class.
 * **killCells()**: This function first sorts the death list in ascending order and then calls shiftTrackIndexes() to shift the indexes so that the cell tracks list maintains the correct indexes once they are removed. Then the dead cells are removed.
