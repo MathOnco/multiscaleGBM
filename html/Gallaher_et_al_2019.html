@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!--<meta charset="utf-8">-->
+    <meta name="viewport" content ="width=device-width,initial-scale=1,user-scalable=yes" />
+    <title>BONK</title>
+    <link href="css/test.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-1.2.0.min.js"></script>
+  </head>
+
+  <body class="application", background="img/squared_metal.png">
+    <!-- Selections!!!! -->
+    <div class="container-fluid">
+      <div class="chart-wrapper">
+        <!-- New row -->
+        <div class="graphrow">  
+          <!-- BEGIN CHART AREA   style="display:inline-block"-->
+          <table style="width:100%">
+            <tr>
+              <th> <font size="4"> From cells to tissue: How cell scale heterogeneity impacts glioblastoma growth and treatment </font><br /> </th>
+            </tr>
+            <tr>
+              <th> <font size="1">J. Gallaher, S. C. Massey, A. Hawkins-Daarud, S. S. Noticewala, R. C. Rockne, S. K. Johnston, L. Gonzalez-Cuyar, J. Juliano, O. Gil, K. R. Swanson, P. Canoll and A. R. A. Anderson</font> </th>
+            </tr>
+            <tr>
+              <th> <p><a href="https://github.com/MathOnco/MultiscaleGBM" style="text-decoration: none">java code</a></p> </th>
+            </tr>
+          </table>
+          <hr>
+          <center>
+          <select id="select1" style="background-color:#FFFF00;">
+            <option value=0> select </option>
+            <option value=1>nodular </option>
+            <option value=2>intermediate </option>
+            <option value=3>diffuse </option>
+            <option value=4>heterogeneous</option>
+            <option value=5>homogeneous</option>
+          </select>
+          <select id="select2" style="background-color:#FFFF00;">
+            <option value="0"> select </option>
+            <option value="1"> Grow </option>
+            <option value="2"> Anti-proliferative Tx </option>
+            <option value="3"> Anti-migratory Tx </option>
+            <option value="4"> Anti-proliferative + Anti-migratory Tx </option>
+          </select>
+          <!--<button id="controlButton" onclick="playControl()">Play</button>-->
+          <input onclick="playControl()" type="button" value="Play" id="controlButton" >
+          <input type="range" id="seek-bar" value="0" >
+          <br/>
+          <!-- END CHART AREA -->
+          <div width="100%" style="text-align:center">
+            <img id='head' width="90%" style="text-align:center;"></img> 
+            <video style="text-align:center; margin: 0 auto;" id="mov1" width=90% webkit-playsinline="true" playsinline="true">
+              <source id="src1h" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <img id='head2' width="90%" style="text-align:center"></img> 
+            <video style="text-align:center; margin: 0 auto;" id="mov2" width=90% webkit-playsinline="true" playsinline="true">
+              <source id="src2h" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+          </div>  
+        </div> <!-- graph row --> 
+      <!-- END ROW -->
+      </div> <!-- wrapper --> 
+    </div><!-- END CONTAINER-FLUID -->
+
+
+    <script type="text/javascript">
+
+      ///////    VARIABLES.    ///////////////
+
+      var videobutton1 = document.getElementById("select1");
+      var videobutton2 = document.getElementById("select2");
+
+      var videocontainer1 = document.getElementById('mov1');
+      var videosource1h = document.getElementById('src1h');
+      var videocontainer2 = document.getElementById('mov2');
+      var videosource2h = document.getElementById('src2h');
+
+      var headsrc = document.getElementById('head');
+      var headsrc2 = document.getElementById('head2');
+
+      var buttonVal1;
+      var buttonVal2;
+
+      var seekBar = document.getElementById("seek-bar");
+
+      var v1 = new Array();
+      v1=[[' ',' '],
+          ['tum1G','tum1G2'],
+          ['tum3G','tum3G2'],
+          ['tum2G','tum2G2'],
+          ['tum4G','tum4G2'],
+          ['tum8G','tum8G2'],
+          ['tum1AP','tum1AP2'],
+          ['tum3AP','tum3AP2'],
+          ['tum2AP','tum2AP2'],
+          ['tum4AP','tum4AP2'],
+          ['tum8AP','tum8AP2'],
+          ['tum1AM','tum1AM2'],
+          ['tum3AM','tum3AM2'],
+          ['tum2AM','tum2AM2'],
+          ['tum4AM','tum4AM2'],
+          ['tum8AM','tum8AM2'],
+          ['tum1APAM','tum1APAM2'],
+          ['tum3APAM','tum3APAM2'],
+          ['tum2APAM','tum2APAM2'],
+          ['tum4APAM','tum4APAM2'],
+          ['tum8APAM','tum8APAM2']];
+
+      /////   EVENT LISTENERS    /////////
+
+      videobutton1.addEventListener("change", function(event) {
+        pauseVids();
+
+        buttonVal1 = videobutton1.value;
+        videobutton1.setAttribute("style", "background-color: white;");
+        loadSource();
+        
+      }, false);
+
+      videobutton2.addEventListener("change", function(event) {
+        buttonVal2 = videobutton2.value;
+        videobutton2.setAttribute("style", "background-color: white;");
+        loadSource();
+        
+      }, false);
+
+      seekBar.addEventListener("input", function() {
+        // Calculate the new time
+        var time = videocontainer1.duration * (seekBar.value / 100);
+
+        // Update the video time
+        videocontainer1.currentTime = time;
+        videocontainer2.currentTime = time;
+        pauseVids();
+      });
+
+
+      ////    FUNCTIONS     ////////
+
+      function moveSeekBar() { 
+        var val = 0;
+        var id = setInterval(frame, 10);
+        function frame() {
+          if (val >= 100 || videocontainer1.paused) {
+            pauseVids();
+            clearInterval(id);
+          } 
+          else {
+            val=100*videocontainer1.currentTime/videocontainer1.duration; 
+            seekBar.value=val;
+          }
+        }
+      }
+
+      function loadSource() {
+        pauseVids();
+
+        var vidID = buttonVal1*1+(5*(buttonVal2*1-1));
+
+        videosource1h.setAttribute('src', 'newMovs/mp4/'+v1[vidID][0]+'.mp4');
+        videocontainer1.load();
+        videosource2h.setAttribute('src', 'newMovs/mp4/'+v1[vidID][1]+'.mp4');
+        videocontainer2.load();
+
+        seekBar.value=0;
+        headsrc.setAttribute('src', 'img/top.png');
+        headsrc2.setAttribute('src', 'img/bottom.png');
+
+      }
+
+      function playControl() { 
+        if (videocontainer1.paused) { 
+          videocontainer1.play();
+          videocontainer2.play(); 
+
+          document.getElementById("controlButton").value = 'Pause';
+          moveSeekBar();
+        } 
+        else { 
+          pauseVids();
+        }
+      } 
+
+      function pauseVids() { 
+        videocontainer1.pause();
+        videocontainer2.pause(); 
+
+        document.getElementById("controlButton").value = 'Play';
+      } 
+       
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  </body>
+
+</html>
