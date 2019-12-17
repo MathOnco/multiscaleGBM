@@ -1,6 +1,6 @@
 # multiscaleGBM
 
-This is the code used to produce the results in [From cells to tissue: How cell scale heterogeneity impacts glioblastoma growth and treatment](https://www.biorxiv.org/content/early/2019/05/26/650150.1.full.pdf) and the [interactive website](http://www.imomodelview.com/Publications/Gallaher/Multiscale_GBM/Gallaher_et_al_2019.html) with representative movies from this code. In this work, we ask how heterogeneity impacts glioblastoma (GBM) tumor growth and response to treatment, using a hybrid agent-based model fit to multiscale data from a rat experimental model system. 
+This is the code used to produce the results in [From cells to tissue: How cell scale heterogeneity impacts glioblastoma growth and treatment](https://www.biorxiv.org/content/early/2019/05/26/650150.1.full.pdf) and the [interactive website](http://jillagal.github.io/multiscaleGBM/) with representative movies from this code. In this work, we ask how heterogeneity impacts glioblastoma (GBM) tumor growth and response to treatment, using a hybrid agent-based model fit to multiscale data from a rat experimental model system. 
 
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
